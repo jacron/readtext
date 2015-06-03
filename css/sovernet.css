@@ -1,0 +1,22 @@
+/*
+Author: jan
+Date: 23-mei-2014
+*/
+/*
+    Created on : 23-mei-2014, 22:45:11
+    Author     : jan
+*/
+b{
+    font-family: chaparral-regular, serif;
+    font-weight: normal;
+}
+table{
+    border: none !important;
+    width: inherit;
+    background: transparent;
+}
+table td {
+    border: none !important;
+}
+
+

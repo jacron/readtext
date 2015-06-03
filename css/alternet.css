@@ -1,0 +1,18 @@
+/*
+Author: jan
+Date: 5-jun-2014
+*/
+/*
+    Created on : 5-jun-2014, 12:27:28
+    Author     : jan
+*/
+.big_story_tools_bottom_container,
+.story_tools_bottom,
+.paging_options,
+
+#insert_ilikethis
+{ display: none;}
+.article_insert_container {
+    margin-top: -80px;
+}
+

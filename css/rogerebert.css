@@ -1,0 +1,46 @@
+/*
+Author: jan
+Date: 23-mei-2014
+*/
+/*
+    Created on : 23-mei-2014, 22:43:52
+    Author     : jan
+*/
+
+@font-face {
+    font-family:'Site-Icons';
+    src:url('../fonts/re-icon-font.eot'),/* format('embedded-opentype');*/
+    url("../fonts/re-icon-font.svg#Siteicons") format("svg"),
+     url("/assets/re-icon-font-103ffdb968e07aa774bde97f3f4db5a6.ttf") format("truetype");
+}
+/*/assets/re-icon-font-103ffdb968e07aa774bde97f3f4db5a6.ttf*/
+.primary-image img {
+    width: 640px;
+}
+.movie-poster img {
+    width: auto;
+    height: 300px;
+}
+.star-rating {
+    color: #998a3d;
+    vertical-align: baseline;
+    font-weight: 400;
+    position: relative;
+    top: 3px;
+}
+.star-rating i {
+    font-style: normal;
+}
+.star-rating i:before {
+    font-size: 2em;
+}
+.star-rating {
+    font-family: 'Site-Icons';
+}
+.star-rating .icon-star-full:before {
+    content: '\2605';
+}
+.star-rating .icon-star-half:before {
+    content: '\2607';
+}
+

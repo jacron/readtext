@@ -1,0 +1,45 @@
+/*
+Author: jan
+Date: 23-mei-2014
+*/
+/*
+    Created on : 23-mei-2014, 22:37:43
+    Author     : jan
+*/
+
+.abstract {
+    font-style: italic;
+    font-size: 21px;
+    border-bottom: 1px solid #cdcdcd;
+    margin-bottom: 30px;
+}
+.avatar img {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+}
+.dt {
+    display: none;
+}
+.dt {
+    color: #222;
+}
+.author:after {
+    content: ' on';
+    font-style: italic;
+}
+.layout-object.right.medium p:nth-child(2) {
+    margin: 0 0 30px 50px;
+    font-size: 14px;
+}
+.layout-object.right.medium p:nth-child(1) {
+    display: none;
+}
+.layout-object.large img {
+    width: 640px;
+    height: auto;
+}
+img {
+    max-width: 640px;
+    height: auto;
+}

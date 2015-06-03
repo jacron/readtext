@@ -1,0 +1,125 @@
+/*
+Author: jan
+Date: 15-mei-2014
+*/
+/*
+    Created on : 15-mei-2014, 10:11:42
+    Author     : jan
+*/
+
+@font-face {
+    font-family:chaparral-regular;
+    src:url('../fonts/ChaparralPro-Regular.otf') format('opentype');
+}
+@font-face {
+    font-family:chaparral-bold;
+    src:url('../fonts/ChaparralPro-Bold.otf') format('opentype');
+}
+body {
+    background-color: rgba(250,250,240,0.99);
+}
+h1 {
+    font-size: 1.7em;
+    line-height: 1.3;
+    padding-bottom: .5em;
+    color: #222;
+    border-bottom: 1px solid #cdcdcd;
+}
+a {
+    color: #428bca;
+    text-decoration: none;
+}
+b, strong, h1 {
+    font-family: chaparral-bold, serif;
+    font-weight: normal;
+}
+.logo {
+    margin-left: 6px;
+    opacity: .6;
+}
+.container {
+    width: 100%;
+    padding-top: 16px;
+}
+.main-head {
+    margin-bottom: 10px;
+}
+.sprite {
+    background-image: url('../images/sprite.png');
+}
+.main {
+    margin: 0 auto;
+    max-width:640px;
+    font-size: 22px;
+    font-family:  chaparral-regular, chaparral-pro, serif;
+    color: #222;
+}
+.text_body {
+    clear: both;
+    line-height: 1.7;
+    text-align: left;
+}
+.link {
+    max-width:640px;
+    margin: 0 auto;
+}
+.originallink {
+    max-width:640px;
+    margin: 0 auto;
+    text-align: right;
+}
+.text_body h1 {
+    font-size: 1.7em;
+    line-height: 1.3;
+    padding-bottom: .5em;
+    color: #222;
+    border-bottom: 1px solid #cdcdcd;
+    font-weight: 700;
+}
+.container {
+    max-width: none;
+}
+.end-of-page {
+    width: 42px;
+    height: 9px;
+    background-position: 0 0;
+    margin: 20px auto 26px auto;
+}
+.host-name {
+    float: left;
+}
+.www-dvdbeaver-com table{
+    width:auto;
+}
+img {
+    max-width: 640px;
+    height: auto;
+}
+/*
+@media screen and (max-width:800px) {
+    .main {
+        max-width: 720px;
+    }
+}*/
+.originallink .unknown {
+    color: red;
+}
+.error {
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+}
+.readtext .intro {
+    font-style: italic;
+    font-weight: bold;
+}
+.readtext img {
+    box-shadow: 10px 10px 5px #888888;
+}
+iframe {
+    display: none;
+}
+.review-author.headline {
+    font-family: chaparral-bold, serif;
+    font-size: 26px;;
+}

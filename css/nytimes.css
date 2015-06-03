@@ -1,0 +1,23 @@
+/*
+Author: jan
+Date: 28-mei-2014
+*/
+/*
+    Created on : 28-mei-2014, 12:26:05
+    Author     : jan
+*/
+.image .enlargeThis a {
+    font-family: arial, helvetica, sans-serif;
+    font-size: 12px;
+    padding-left: 16px;
+    background-image: url(../images/icons/enlarge_icon.gif);
+    background-repeat: no-repeat;
+    background-position: center left;
+    text-decoration: none;
+    display: inline;
+}
+.image .enlargeThis {
+    display: block;
+ /*   text-align: right;*/
+    margin-bottom: 2px;
+}

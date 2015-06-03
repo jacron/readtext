@@ -1,0 +1,40 @@
+/*
+Author: jan
+Date: 23-mei-2014
+*/
+/*
+    Created on : 23-mei-2014, 22:42:20
+    Author     : jan
+*/
+
+.byline {
+    color: #63635e;
+    display: table;
+    margin-bottom: 30px;
+}
+.byline .thumb {
+    float: left;
+    margin-right: 28px;
+    width: 70px;
+}
+.byline .author {
+    display: table-cell;
+    vertical-align: middle;
+    overflow: auto;
+}
+.byline .author .title {
+    display: block;
+}
+.byline .author h3{
+    font-size: 17px;
+    font-style: italic;
+    margin: 0;
+}
+figure {
+    float: right;
+    margin: -2px 0 0 0;
+}
+figure img {
+    width: 640px;
+    height: auto;
+}
