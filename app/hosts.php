@@ -143,7 +143,10 @@ class Hosts {
                 'rogerebert.suntimes.com',
             ),
             'body' => '/(<article class="pad.*?<\/article>)/is',
-            'header' => '/<figcaption.*?<h1 itemprop="name">(.*?)<\/h1>/is',
+            'header' => array(
+                '/<figcaption.*?<h1 itemprop="name">(.*?)<\/h1>/is',
+                '/(<div class="primary-image">.*?<\/div>)/is',
+            ),
             'logo' => 'rogerebert.png',
             'css' => 'rogerebert.css',
             'remove' => array(
@@ -158,7 +161,11 @@ class Hosts {
             ),
             //'body' => '/<div id="content">(.*?)<!-- Closes #content /is',
             'header' => '/<!-- Article Headline -->(.*?)<div/is',
-            'body' => '/<!-- Start Article Post Content -->(.*?)<\/div/is',
+            'body' => array(
+                '/(<figure.*?<\/figure>)/is',
+                '/(<section class="byline">.*?<\/section>)/is',
+                '/<!-- Start Article Post Content -->(.*?)<\/div/is',
+            ),
             'logo' => 'variety.png',
             'css' => 'variety.css',
         ),
@@ -281,7 +288,10 @@ class Hosts {
         array(
             'name' => 'www.washingtonpost.com',
             'body' => '/<!--plsfield:description-->(.*?)<\/td>/is',
-            'header' => '/<!--THE HEADLINE GOES HERE-->\s*?<h2>(.*?)<\/h2>\s*?<!--THE BYLINE GOES HERE-->/is',
+            'header' => array(
+                '/<!--THE HEADLINE GOES HERE-->\s*?<h2>(.*?)<\/h2>\s*?<!--THE BYLINE GOES HERE-->/is',
+                '/(<table.*?<\/table>).*?<!-- End of ARTICLE head table. -->/is'
+            ),
          ),
         array(
             'name' => 'cinemagazine.nl',

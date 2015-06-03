@@ -138,15 +138,17 @@ class Source {
 
     protected function getContent() {
         if (is_array($this->host['body'])) {
-            $content = null;
+            $content = '';
             $i = 0;
-            while (!$content && $i < count($this->host['body'])) {
-                $content = Util::getElement($this->html, $this->host['body'][$i]);
+            while ($i < count($this->host['body'])) {
+                $content .= Util::getElement($this->html, $this->host['body'][$i]);
                 $i++;
             }
+            //Util::debug_log($i);
         }
         else {
             $content = Util::getElement($this->html, $this->host['body']);
+            Util::debug_log('one body');
         }
 
         //file_put_contents('c:\temp\content.html', $this->html);
@@ -193,7 +195,19 @@ class Source {
 
     protected function getHeader() {
         if (isset($this->host['header'])) {
-            $this->header = Util::getElement($this->content, $this->host['header']);
+            if (is_array($this->host['header'])) {
+                $content = '';
+                $i = 0;
+                while ($i < count($this->host['header'])) {
+                    $content .= Util::getElement($this->html, $this->host['header'][$i]);
+                    $i++;
+                }
+            }
+            else {
+                $content = Util::getElement($this->html, $this->host['header']);
+            }
+            //$this->header = Util::getElement($this->content, $this->host['header']);
+            $this->header = $content;
         }
         else
         {
@@ -243,8 +257,8 @@ class Source {
         $this->getTitle();
         $this->getPhost($url);
         $this->getHost();
-        $this->getHeader();
         $this->getContent();
+        $this->getHeader();
 
         $hostUtf8 = isset($this->host['utf8']) && $this->host['utf8'];
         if ($hostUtf8 || $forcedUtf8) {
