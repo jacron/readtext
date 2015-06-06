@@ -35,6 +35,7 @@ class Hosts {
         'name' => 'unknown',
         'body' => array(
             '/(<article .*?<\/article>)/is',
+            '/(<article .*?<\/article>)/is',
             //'/(<div class="content">.*?)/is',
             '/<body.*?>(.*?)<\/body>/is',
         ),
@@ -97,8 +98,13 @@ REGEXP
         ),
         array(
             'name' => 'www.timeout.com',
-            'body' => '/(<div id="mainLeft".*?<\/div>)\s*?<div id="mainRight/is',
-            'remove' => '/(<div id="ratingsWrapper.*?<\/div>)\s*?<div class="details" id="filmDetail">/is',
+            'body' => array(
+                '/(<article class="review__article".*?<\/article>)/is',
+                //                 review__article
+                //'/(<div class="review__body">.*?<\/div>)/is',
+               '/(<div id="mainLeft".*?<\/div>)\s*?<div id="mainRight/is',
+            ) ,
+            //'remove' => '/(<div id="ratingsWrapper.*?<\/div>)\s*?<div class="details" id="filmDetail">/is',
         ),
         array(
             'name' => 'www.filmabides.nl',

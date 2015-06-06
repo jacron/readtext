@@ -24,11 +24,11 @@ class Source {
         $this->hosts = new Hosts(); // de lijst met hosts, de lijst met regex, etc.
     }
 
-    public function hostProp($prop) {
+    protected function hostProp($prop) {
         return isset($this->host[$prop]) ? $this->host[$prop] : '';
     }
 
-    public function getData() {
+    protected function getData() {
         // merge data
         $data = array();
         $props = array('logo', 'style', 'css', 'script', 'js');
@@ -143,6 +143,16 @@ class Source {
             . "<a href=\"$url\">original site</a></div>";
     }
 
+    protected function writeContentToDisk($content) {
+        global $config;
+        $dir = $config->settings['contentdir'];
+
+        if (!file_exists($dir)) {
+            mkdir(dirname($dir));
+        }
+        file_put_contents($dir, $content);
+    }
+
     protected function getContent() {
         if (is_array($this->host['body'])) {
             $content = $this->getContents();
@@ -157,6 +167,7 @@ class Source {
         else {
             $this->adjustContent($content);
         }
+        //$this->writeContentToDisk($this->content);
     }
 
     protected function findHost($hostname) {
@@ -224,7 +235,6 @@ class Source {
     protected function getHtml($refresh) {
         $proxy = new Proxy();
         $this->html = $proxy->get($this->originalurl, $refresh);
-        //file_put_contents('C:\\temp\\unknown.html', $this->html);
     }
 
     protected function convert() {
@@ -233,21 +243,26 @@ class Source {
         $this->title = Util::convertToUtf8($this->title);
     }
 
-    public function clsHost() {
+    protected function clsHost() {
         return str_replace('.', '-', $this->phost);
     }
 
-    public function isUnknown() {
+    protected function isUnknown() {
         return $this->host['name'] === 'unknown';
     }
 
     /**
+     * Get the cleaned text from known and unknown sites.
+     *
      * @param string $url
      * @param bool $forcedUtf8 true, if client sent parameter utf8 in querystring
+     * @param bool $refresh
+     * @return mixed data
      */
     public function get($url, $forcedUtf8, $refresh) {
         $this->originalurl = $url;
         $this->getHtml($refresh);
+        //$this->writeContentToDisk($this.html); // check the original source
         $this->getTitle();
         $this->getPhost();
         $this->getHost();
@@ -258,6 +273,7 @@ class Source {
         if ($hostUtf8 || $forcedUtf8) {
             $this->convert();
         }
+        return $this->getData();
     }
 }
 

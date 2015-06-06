@@ -9,8 +9,7 @@ class Reader {
     protected function getLees($url, $utf8, $refresh) {
         $src = new Source();
         $url = urldecode($url);
-        $src->get($url, $utf8, $refresh);
-        return $src->getData();
+        return $src->get($url, $utf8, $refresh);
     }
 
     protected function errorPage($r, $msg=null) {
