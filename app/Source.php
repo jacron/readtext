@@ -137,6 +137,8 @@ class Source {
     }
 
     protected function getContent() {
+        global $config;
+
         if (is_array($this->host['body'])) {
             $content = '';
             $i = 0;
@@ -153,7 +155,8 @@ class Source {
 
         //file_put_contents('c:\temp\content.html', $this->html);
         if (!$content) {
-           file_put_contents('c:\temp\nocontent.html', $this->html);
+            $nocontentdir = $config->settings['nocontentdir'];
+           file_put_contents($nocontentdir, $this->html);
            $this->content = '<div class="warning">Sorry, I could not find the content of'
                    . ' the <a href="' . $this->originalurl . '">original site</a>';
         }
