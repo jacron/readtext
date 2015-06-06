@@ -31,7 +31,13 @@ $(function(){
        document.location.href = document.location.href + '&utf8=1';
    });
 
-   // Adjust src attribute of images.
+    // Avoid caching.
+    $('.refresh').click(function(e){
+        e.preventDefault();
+        document.location.href = document.location.href + '&refresh=1';
+    });
+
+    // Adjust src attribute of images.
    $.each($('img'), function() {
        var $this = $(this),
             src = $this.attr('src');
@@ -42,11 +48,9 @@ $(function(){
    });
 
     function hasSpecialPrefix(href) {
-        var specialPrefix =
-            (href.indexOf('http') === 0 ||
+        return href.indexOf('http') === 0 ||
             href.indexOf('javascript:') === 0 ||
-            href.indexOf('mailto:') === 0);
-        return specialPrefix;
+            href.indexOf('mailto:') === 0;
     }
 
    // Adjust href attribute of hyperlinks

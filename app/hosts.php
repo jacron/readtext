@@ -5,6 +5,21 @@
  * Created: 15-mei-2014
  */
 
+/*
+ * style mag geen mintekens bevatten; dit werkt dus niet:
+ * 'style' => '.review-author.headline{font-family:chaparral-bold;}'
+ *
+ * header niet ingevuld betekent: neem titel over in header
+ * let op: soms leidt dat tot verdubbeling
+ *
+ * de volgende properties kunnen arrays zijn:
+ * name, body, header, remove
+ */
+
+/**
+ * Class Hosts
+ *
+ */
 class Hosts {
     public $removables = array(
         '/(<script.*?<\/script>)/is',
@@ -13,6 +28,7 @@ class Hosts {
         '/(style=\'.*?\')/is',
         '/(bgcolor=".*?")/is',
         '/(bgcolor=\'.*?\')/is',
+        '/(<b>)/is'
     );
 
     public $defaultHost = array(
@@ -27,9 +43,19 @@ class Hosts {
         'remove' => '/(<aside.*?<\/aside>)/is',
     );
 
-    /*
-     * N.B. style mag geen mintekens bevatten
-     */
+    public $regex = array(
+        'title' => '/<title>(.*?)<\/title>/is',
+        'ebertImage' => '/(<div class="primary-image">.*?<\/div>)/is',
+        'ebertPoster' => '/(<div class="movie-poster">.*?<\/div>)/is',
+        'varietyAuthor' => '/(<section class="byline">.*?<\/section>)/is',
+        'varietyImage' => '/(<figure.*?<\/figure>)/is',
+        'cinemagazineThumb' => '/<div class="single-thumb">(.*?)<span/is',
+        'ReadwriteAbstract' => <<<'REGEXP'
+/(<div class="abstract".*?</div>)/is
+REGEXP
+    ,
+        'ReadwriteAuthor' => '/(<span class="avatar".*?)\s*?<span class="section"/is',
+    );
 
     public $hosts = array(
 
@@ -38,7 +64,6 @@ class Hosts {
             'body' => '/(<section class="review.*?<\/section>)/is',
             'header' => '',
             'utf8' => false,
-            //'style' => '.review-author.headline{font-family:chaparral-bold;}'
         ),
         array(
             'name' => 'www.philognosie.net',
@@ -212,7 +237,10 @@ class Hosts {
             'header' => '',
             'js' => 'nytimes.js',
             'css' => 'nytimes.css',
-            'remove' => '/(<div id="articleToolsTop".*?<\/div>)\s*?<div class="articleBody">/is',
+            'remove' => array(
+                '/(<div id="articleToolsTop".*?<\/div>)\s*?<div class="articleBody">/is',
+                '/(<div id="articleInline">.*?<\/div>)/is'
+            ),
          ),
         array(
             'name' => 'www.epinions.com',

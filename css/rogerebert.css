@@ -9,11 +9,11 @@ Date: 23-mei-2014
 
 @font-face {
     font-family:'Site-Icons';
+    /*noinspection CssUnknownTarget*/
     src:url('../fonts/re-icon-font.eot'),/* format('embedded-opentype');*/
     url("../fonts/re-icon-font.svg#Siteicons") format("svg"),
      url("/assets/re-icon-font-103ffdb968e07aa774bde97f3f4db5a6.ttf") format("truetype");
 }
-/*/assets/re-icon-font-103ffdb968e07aa774bde97f3f4db5a6.ttf*/
 .primary-image img {
     width: 640px;
 }
@@ -35,7 +35,7 @@ Date: 23-mei-2014
     font-size: 2em;
 }
 .star-rating {
-    font-family: 'Site-Icons';
+    font-family: 'Site-Icons', serif;
 }
 .star-rating .icon-star-full:before {
     content: '\2605';

@@ -11,20 +11,25 @@
  * @author jan
  */
 class Source {
+    private $hosts;
+    private $host;
+    private $phost;
+    private $originalurl;
     private $html;
     private $content;
     private $title;
-    private $phost;
-    private $host;
     private $header;
-    private $hosts;
-    private $originalurl;
 
     public function __construct() {
-        $this->hosts = new Hosts();
+        $this->hosts = new Hosts(); // de lijst met hosts, de lijst met regex, etc.
+    }
+
+    public function hostProp($prop) {
+        return isset($this->host[$prop]) ? $this->host[$prop] : '';
     }
 
     public function getData() {
+        // merge data
         $data = array();
         $props = array('logo', 'style', 'css', 'script', 'js');
         foreach($props as $prop) {
@@ -39,7 +44,6 @@ class Source {
             'unknown' => $this->isUnknown(),
             'originalUrl' => $this->originalurl,
         ));
-
     }
 
     protected function removeHtmlElementFromContent($pattern) {
@@ -76,43 +80,20 @@ class Source {
         }
     }
 
-    protected function getHtmlElement($pattern) {
-        return Util::getElement($this->html, $pattern);
+    protected function parseElement($elm) {
+        if (!array_key_exists($elm, $this->hosts->regex)) {
+            Util::debug_log('key does not exist:' . $elm);
+            return null;
+        }
+        return Util::getElement($this->html, $this->hosts->regex[$elm]);
     }
 
-     protected function ebertImage() {
-        return $this->getHtmlElement(
-                '/(<div class="primary-image">.*?<\/div>)/is');
-     }
-
-     protected function ebertPoster() {
-         return $this->getHtmlElement(
-                '/(<div class="movie-poster">.*?<\/div>)/is');
-     }
-
-    protected function getVarietyAuthor() {
-         return $this->getHtmlElement(
-                '/(<section class="byline">.*?<\/section>)/is');
+    protected function ebertImage() {
+        return $this->parseElement('ebertImage');
     }
 
-     protected function varietyImage() {
-         return $this->getHtmlElement(
-                '/(<figure.*?<\/figure>)/is');
-     }
-
-     protected function cinemagazineThumb() {
-         return $this->getHtmlElement(
-                '/<div class="single-thumb">(.*?)<span/is');
-     }
-
-    protected function getReadwriteAbstract() {
-         return $this->getHtmlElement(
-               '/(<div class="abstract".*?<\/div>)/is');
-    }
-
-    protected function getReadwriteAuthor() {
-         return $this->getHtmlElement(
-               '/(<span class="avatar".*?)\s*?<span class="section"/is');
+    protected function ebertPoster() {
+        return $this->parseElement('ebertPoster');
     }
 
     protected function augmentContent() {
@@ -125,47 +106,56 @@ class Source {
               }
                return  $img . $poster . $this->content;
            case 'variety.com':
-               return $this->varietyImage() . $this->getVarietyAuthor() . $this->content;
+               return $this->parseElement('varietyImage') .
+                $this->parseElement('varietyAuthor') .
+                $this->content;
            case 'readwrite.com':
-              return $this->getReadwriteAbstract() .
-                   $this->getReadwriteAuthor() . $this->content;
+              return $this->parseElement('ReadwriteAbstract') .
+              $this->parseElement('ReadwriteAuthor') . $this->content;
            case 'cinemagazine.nl':
-               return $this->cinemagazineThumb() . $this->content;
+               return $this->parseElement('cinemagazineThumb') . $this->content;
            default:
               return $this->content;
         }
     }
 
-    protected function getContent() {
-        global $config;
+    protected function getContents() {
+        $content = '';
+        $i = 0;
+        while ($i < count($this->host['body'])) {
+            $content .= Util::getElement($this->html, $this->host['body'][$i]);
+            $i++;
+        }
+        return $content;
+    }
 
+    protected function adjustContent($content) {
+        $this->content = $content;
+        $this->cleanContent();
+        $this->removeElements();
+        $this->removeVintageAttributesFromContent();
+        $this->content = $this->augmentContent();
+    }
+
+    protected function warnEmpty($url) {
+        return
+            "<div class=\"warning\">Sorry, I could not find the content of the "
+            . "<a href=\"$url\">original site</a></div>";
+    }
+
+    protected function getContent() {
         if (is_array($this->host['body'])) {
-            $content = '';
-            $i = 0;
-            while ($i < count($this->host['body'])) {
-                $content .= Util::getElement($this->html, $this->host['body'][$i]);
-                $i++;
-            }
-            //Util::debug_log($i);
+            $content = $this->getContents();
         }
         else {
             $content = Util::getElement($this->html, $this->host['body']);
-            Util::debug_log('one body');
         }
 
-        //file_put_contents('c:\temp\content.html', $this->html);
         if (!$content) {
-            $nocontentdir = $config->settings['nocontentdir'];
-           file_put_contents($nocontentdir, $this->html);
-           $this->content = '<div class="warning">Sorry, I could not find the content of'
-                   . ' the <a href="' . $this->originalurl . '">original site</a>';
+           $this->content = $this->warnEmpty($this->originalurl);
         }
         else {
-            $this->content = $content;
-            $this->cleanContent();
-            $this->removeElements();
-            $this->removeVintageAttributesFromContent();
-            $this->content = $this->augmentContent();
+            $this->adjustContent($content);
         }
     }
 
@@ -196,20 +186,25 @@ class Source {
         $this->host = $this->getMyHost();
     }
 
+    protected function getHeaders() {
+        $content = '';
+        $i = 0;
+        while ($i < count($this->host['header'])) {
+            $content .= Util::getElement($this->html, $this->host['header'][$i]);
+            $i++;
+        }
+        return $content;
+    }
+
     protected function getHeader() {
+        // Als er geen header gedefinieerd is, neem dan de titel als header.
         if (isset($this->host['header'])) {
             if (is_array($this->host['header'])) {
-                $content = '';
-                $i = 0;
-                while ($i < count($this->host['header'])) {
-                    $content .= Util::getElement($this->html, $this->host['header'][$i]);
-                    $i++;
-                }
+                $content = $this->getHeaders();
             }
             else {
                 $content = Util::getElement($this->html, $this->host['header']);
             }
-            //$this->header = Util::getElement($this->content, $this->host['header']);
             $this->header = $content;
         }
         else
@@ -219,20 +214,16 @@ class Source {
     }
 
     protected function getTitle() {
-        $this->title = html_entity_decode(
-            Util::getElement($this->html,
-            '/<title>(.*?)<\/title>/is'),
-            ENT_QUOTES
-        );
+        $this->title = html_entity_decode($this->parseElement('title'), ENT_QUOTES);
     }
 
-    protected function getPhost($url) {
-        $this->phost = Util::getHostFromUrl($url);
+    protected function getPhost() {
+        $this->phost = Util::getHostFromUrl($this->originalurl);
     }
 
-    protected function getHtml($url) {
+    protected function getHtml($refresh) {
         $proxy = new Proxy();
-        $this->html = $proxy->get($url);
+        $this->html = $proxy->get($this->originalurl, $refresh);
         //file_put_contents('C:\\temp\\unknown.html', $this->html);
     }
 
@@ -242,23 +233,23 @@ class Source {
         $this->title = Util::convertToUtf8($this->title);
     }
 
-    public function hostProp($prop) {
-        return isset($this->host[$prop]) ? $this->host[$prop] : '';
-    }
-
     public function clsHost() {
         return str_replace('.', '-', $this->phost);
     }
 
     public function isUnknown() {
-        return $this->host['name'] == 'unknown';
+        return $this->host['name'] === 'unknown';
     }
 
-    public function get($url, $forcedUtf8) {
+    /**
+     * @param string $url
+     * @param bool $forcedUtf8 true, if client sent parameter utf8 in querystring
+     */
+    public function get($url, $forcedUtf8, $refresh) {
         $this->originalurl = $url;
-        $this->getHtml($url);
+        $this->getHtml($refresh);
         $this->getTitle();
-        $this->getPhost($url);
+        $this->getPhost();
         $this->getHost();
         $this->getContent();
         $this->getHeader();

@@ -15,20 +15,16 @@ class Util {
     public static function debug_log($arr) {
         $backtrace = debug_backtrace();
         $trace = $backtrace[0];
-        $file = $trace['file'];
-        error_log($file . '::' . $trace['line'] . '::' . print_r($arr, true));
+        /*
+        ob_start();
+        var_dump($arr);
+        $output = ob_get_clean();
+*/
+        error_log($trace['file'] . '::' . $trace['line'] . '::' . print_r($arr, true));
     }
 
     public static function convertToUtf8($html) {
-        /*
-    $quotes = array(
-       '&#8216;' => "'",
-       '&#8217;' => "'",
-        '&apos;' => "'",
-       '&#8220;' => '"',
-       '&#8221;' => '"'
-    );*/
-    //https://groups.google.com/forum/#!topic/fr.comp.lang.php/nTSqTMmCFUc
+        //https://groups.google.com/forum/#!topic/fr.comp.lang.php/nTSqTMmCFUc
         //return utf8_encode($html);
 
         $encoding_from = 'Windows-1252';    // 'ISO-8859-15'
@@ -76,9 +72,9 @@ class Util {
             $location = trim($r[1]);
         }
         return array(
-            $response_code,
-            $response_text,
-            $location
+            'code' => $response_code,
+            'text' => $response_text,
+            'url' => $location
         );
     }
 

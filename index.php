@@ -16,13 +16,15 @@ $reader = new Reader();
 $link = filter_input(INPUT_GET, 'link');
 $redirect = filter_input(INPUT_GET, 'redirect');
 $utf8 = filter_input(INPUT_GET, 'utf8');
+$refresh = filter_input(INPUT_GET, 'refresh');
+$data = null;
 
 if ($link) {
     //'http://www.smashingmagazine.com/2013/05/06/new-defaults-web-design/#more-91968';
-    $data = $reader->read($link, $utf8);
+    $data = $reader->read($link, $utf8, $refresh);
 }
 else if ($redirect) {
-    $data = $reader->readRedirect($redirect, $utf8);
+    $data = $reader->readRedirect($redirect, $utf8, $refresh);
 }
 else {
     // Redirect to usage page.
@@ -55,7 +57,8 @@ Date: 15-mei-2014
         <?php if (!empty($data['script'])) { ?>
         <script><?=$data['script']?></script>
         <?php } ?>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+        <!--suppress JSUnresolvedLibraryURL, HtmlUnknownTarget -->
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
         <script>var host='<?=$data['hostname']?>';</script>
         <script src="js/script.js"></script>
         <?php if (!empty($data['js'])) { ?>
@@ -72,7 +75,12 @@ Date: 15-mei-2014
                             class="<?=$data['unknown']?'unknown':''?>"><?=$data['hostname']?></a>
                        <br>
                        <?php if ($data['unknown'] && !isset($_REQUEST['utf8'])) { ?>
-                       <a href="#" class="utf8">utf8</a>
+                           <a href="#" class="utf8">utf8</a>
+                       <?php } ?>
+                       <?php if (!isset($_REQUEST['refresh'])) { ?>
+                           | <a href="#" class="refresh">refresh</a>
+                       <?php } else { ?>
+                           | refreshed
                        <?php } ?>
                    </div>
                </div>

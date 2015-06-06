@@ -109,10 +109,12 @@ class Proxy {
         }
     }
 
-    public function get($url) {
+    public function get($url, $refresh) {
         global $config;
+        //Util::debug_log($config->settings);
 
-        if (!$config->settings['cache']) {
+        if (!$config->settings['cache'] || $refresh) {
+            Util::debug_log('not cached:' . $url);
             return $this->getRemoteFile($url);
         }
 

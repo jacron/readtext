@@ -4,12 +4,14 @@
  */
 
 
+//noinspection JSUnusedGlobalSymbols
 function pop_me_up(pURL, features){
-    new_window = window.open(pURL, "popup_window", features);
+    var new_window = window.open(pURL, "popup_window", features);
     new_window.focus();
 }
 
+//noinspection JSUnusedGlobalSymbols
 function pop_me_up2(pURL,name, features){
-    new_window = window.open(pURL, name, features);
+    var new_window = window.open(pURL, name, features);
     new_window.focus();
 }

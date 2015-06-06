@@ -5,9 +5,8 @@
  */
 class Config {
 
-    /**
+    /*
      * Global settings for the app.
-     * @var type array
      */
     public $settings;
     public $players;

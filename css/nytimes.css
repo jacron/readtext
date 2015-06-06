@@ -10,9 +10,7 @@ Date: 28-mei-2014
     font-family: arial, helvetica, sans-serif;
     font-size: 12px;
     padding-left: 16px;
-    background-image: url(../images/icons/enlarge_icon.gif);
-    background-repeat: no-repeat;
-    background-position: center left;
+    background: url(../images/icons/enlarge_icon.gif) no-repeat center left;
     text-decoration: none;
     display: inline;
 }
