@@ -35,6 +35,11 @@ class Reader {
 
     public function readRedirect($redirect, $utf8, $refresh) {
         $r = Util::getRedirect($redirect);
+        //Util::debug_log($r);
+        //if ($r['code'] == 301)
+        {    // Moved permanently
+            $r = Util::getRedirect($redirect);
+        }
         if ($r['code'] != 200 && $r['code'] != 302 && $r['code'] != 301) {
             return $this->errorPage($r);
         }

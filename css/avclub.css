@@ -1,0 +1,8 @@
+.user-rating-widget,
+.article-meta,
+figure,
+#topshare,
+#sideshare,
+#bottomshare {
+    display: none;
+}

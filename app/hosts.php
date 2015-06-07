@@ -14,6 +14,8 @@
  *
  * de volgende properties kunnen arrays zijn:
  * name, body, header, remove
+ *
+ * overige velden: css, js
  */
 
 /**
@@ -60,6 +62,16 @@ REGEXP
 
     public $hosts = array(
 
+        array(
+            'name' => 'www.avclub.com',
+            'body' => array(
+                '*/(<img src="http:\/\/i.onionstatic.*?>)/is',
+                '/(<article id="article-detail.*?<\/article>)/is',
+            ),
+            'css' => 'avclub.css',
+            'js' => 'avclub.js',
+            'header' => '',
+        ),
         array(
             'name' => 'www.allmovie.com',
             'body' => '/(<section class="review.*?<\/section>)/is',
@@ -208,7 +220,10 @@ REGEXP
         ),
         array(
             'name' => 'www.classicfilmguide.com',
-            'body' => '/(<div class="pagecontent">.*?<\/div>)/is'
+            'body' => array(
+                '/(<div class="post-thumbnail">.*?<\/div>)/is',
+                '/(<div class="pagecontent">.*?<\/div>)/is'
+            ),
          ),
         array(
             'name' => 'filmfanatic.org',

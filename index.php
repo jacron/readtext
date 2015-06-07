@@ -10,6 +10,7 @@ include 'app/Config.php';
 include 'app/Source.php';
 
 $config = new Config();
+//Util::debug_log($config->settings);
 
 $reader = new Reader();
 

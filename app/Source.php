@@ -47,10 +47,12 @@ class Source {
     }
 
     protected function removeHtmlElementFromContent($pattern) {
+        //Util::debug_log($pattern, 'remove pattern');
         $this->content = preg_replace($pattern, '', $this->content);
     }
 
     protected function cleanContent() {
+        //Util::debug_log($this->hosts->removables, 'removables');
         foreach ($this->hosts->removables as $removable) {
             $this->removeHtmlElementFromContent($removable);
         }
@@ -119,16 +121,6 @@ class Source {
         }
     }
 
-    protected function getContents() {
-        $content = '';
-        $i = 0;
-        while ($i < count($this->host['body'])) {
-            $content .= Util::getElement($this->html, $this->host['body'][$i]);
-            $i++;
-        }
-        return $content;
-    }
-
     protected function adjustContent($content) {
         $this->content = $content;
         $this->cleanContent();
@@ -153,12 +145,36 @@ class Source {
         file_put_contents($dir, $content);
     }
 
+    protected function getMultiElement($pattern) {
+        $s = '';
+        if (substr($pattern, 0, 1) == '*') {
+            $a = Util::getElements($this->html, substr($pattern, 1));
+            $b = $a[0];
+            for ($i = 1; $i < count($b); $i++) {
+                $s .= $b[$i];
+            }
+        }
+        else {
+            $s = Util::getElement($this->html, $pattern);
+        }
+        return $s;
+    }
+    protected function getContents() {
+        $content = '';
+        $i = 0;
+        while ($i < count($this->host['body'])) {
+            $content .= $this->getMultiElement($this->host['body'][$i]);
+            $i++;
+        }
+        return $content;
+    }
+
     protected function getContent() {
         if (is_array($this->host['body'])) {
             $content = $this->getContents();
         }
         else {
-            $content = Util::getElement($this->html, $this->host['body']);
+            $content = $this->getMultiElement($this->host['body']);
         }
 
         if (!$content) {
@@ -262,7 +278,7 @@ class Source {
     public function get($url, $forcedUtf8, $refresh) {
         $this->originalurl = $url;
         $this->getHtml($refresh);
-        //$this->writeContentToDisk($this.html); // check the original source
+        $this->writeContentToDisk($this->html); // check the original source
         $this->getTitle();
         $this->getPhost();
         $this->getHost();

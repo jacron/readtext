@@ -7,7 +7,7 @@
 $(function(){
 
    // reconstruct the host for images and links
-   function getLinkUrl() {
+   function getOriginalLink() {
        var originalLink = $('.originallink a').attr('href'),
             pos = originalLink.lastIndexOf('/');
 
@@ -16,12 +16,11 @@ $(function(){
 
    function addPrefix(link) {
        var prefix;
-        if (link.indexOf('/') !== 0) {
-            prefix = getLinkUrl() + '/';
-        }
-        else {
-            prefix = 'http://' + host;
-        }
+       if (link.indexOf('/') === 0) {
+           prefix = 'http://' + host;
+       } else {
+           prefix = getOriginalLink() + '/';
+       }
         return prefix + link;
    }
 
@@ -50,7 +49,8 @@ $(function(){
     function hasSpecialPrefix(href) {
         return href.indexOf('http') === 0 ||
             href.indexOf('javascript:') === 0 ||
-            href.indexOf('mailto:') === 0;
+            href.indexOf('mailto:') === 0 ||
+            href.indexOf('//') === 0;
     }
 
    // Adjust href attribute of hyperlinks

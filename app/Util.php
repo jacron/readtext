@@ -12,7 +12,15 @@
  */
 class Util {
 
-    public static function debug_log($arr) {
+    /**
+     * @param mixed|string $arr
+     * @param string|null $label
+     */
+    public static function debug_log($arr, $label='') {
+        global $config;
+
+        $set = $config->settings;
+
         $backtrace = debug_backtrace();
         $trace = $backtrace[0];
         /*
@@ -20,7 +28,16 @@ class Util {
         var_dump($arr);
         $output = ob_get_clean();
 */
-        error_log($trace['file'] . '::' . $trace['line'] . '::' . print_r($arr, true));
+        $file = $trace['file'];
+        if (isset($set['srcpath'])) {
+            $file = str_replace($set['srcpath'], '.../', $trace['file']);
+        }
+        $msg = $file . '::' . $trace['line'] . '::';
+        if (strlen($label)) {
+            $msg .= $label . '=>';
+        }
+        $msg .= print_r($arr, true);
+        error_log($msg);
     }
 
     public static function convertToUtf8($html) {
@@ -88,6 +105,22 @@ class Util {
 
         if ($n > 0) {
             return $matches[1];
+        }
+        else {
+            return '';
+        }
+    }
+
+    public static function getElements($html, $pattern)
+    {
+        if (empty($pattern)) {
+            return null;
+        }
+
+        $n = preg_match_all($pattern, $html, $matches);
+
+        if ($n > 0) {
+            return $matches;
         }
         else {
             return '';
