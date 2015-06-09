@@ -63,7 +63,10 @@ REGEXP
     public $hosts = array(
 
         array(
-            'name' => 'www.avclub.com',
+            'name' => array(
+                'www.avclub.com',
+                'avclub.com'
+            ),
             'body' => array(
                 '*/(<img src="http:\/\/i.onionstatic.*?>)/is',
                 '/(<article id="article-detail.*?<\/article>)/is',
@@ -74,8 +77,11 @@ REGEXP
         ),
         array(
             'name' => 'www.allmovie.com',
-            'body' => '/(<section class="review.*?<\/section>)/is',
-            'header' => '',
+            'body' => array(
+                '/(<div class="poster".*?<\/div>)/is',
+                '/(<section class="review.*?<\/section>)/is'
+            ),
+            'header' => '/(<hgroup.*?<\/hgroup>)/is',
             'utf8' => false,
         ),
         array(
