@@ -84,16 +84,16 @@ class Proxy {
         return $content;
     }
 
-    protected function escapeFilename($url) {
-        return str_replace(
-            array(':', '/', '?', '=', '+', '%'),
-            array('_', '_', '_', '_', '_', '_'),
-            $url
-        );
-    }
-
+    /**
+     * Probeer de webpagina uit de cache te halen.
+     * Als hij er nog niet in zit, haal hem op (en plaats hem er in).
+     *
+     * @param {string} $dir
+     * @param {string} $url
+     * @return mixed|null|string
+     */
     protected function cacheGet($dir, $url) {
-        $cacheFilename = $this->escapeFilename($url);
+        $cacheFilename = Util::escapeFilename($url);
         $zip_path = $dir . '/'. $cacheFilename . '.zip';
 
         if (file_exists($zip_path)) {
@@ -109,6 +109,13 @@ class Proxy {
         }
     }
 
+    /**
+     * Haal webpagina op, zo mogelijk uit de cache.
+     *
+     * @param {string} $url
+     * @param {bool} $refresh
+     * @return mixed|null|string
+     */
     public function get($url, $refresh) {
         global $config;
         //Util::debug_log($config->settings);

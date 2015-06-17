@@ -13,7 +13,9 @@ class Reader {
     }
 
     protected function errorPage($r, $msg=null) {
-        $phost = Util::getHostFromUrl($r['url']);
+        //$phost = Util::getHostFromUrl($r['url']);
+        $elems = parse_url($r['url']);
+        $phost = $elems['host']; //Util::getHostFromUrl($this->originalurl);
         $error = null;
         if ($r['code'] == 404) {
             $error = 'Pagina niet gevonden';
@@ -35,11 +37,6 @@ class Reader {
 
     public function readRedirect($redirect, $utf8, $refresh) {
         $r = Util::getRedirect($redirect);
-        //Util::debug_log($r);
-        //if ($r['code'] == 301)
-        {    // Moved permanently
-            $r = Util::getRedirect($redirect);
-        }
         if ($r['code'] != 200 && $r['code'] != 302 && $r['code'] != 301) {
             return $this->errorPage($r);
         }

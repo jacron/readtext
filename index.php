@@ -46,6 +46,7 @@ Date: 15-mei-2014
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><?=$data['title']?></title>
         <link rel="stylesheet" href="css/style.css?v=1">
+        <link rel="icon" href="<?=$data['scheme']?>://<?=$data['hostname']?>/favicon.ico">
         <?php if (!empty($data['cssPrint'])) { ?>
         <link rel="stylesheet" href="<?=$data['cssPrint']?>">
         <?php } ?>

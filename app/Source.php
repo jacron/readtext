@@ -14,6 +14,7 @@ class Source {
     private $hosts;
     private $host;
     private $phost;
+    private $scheme;
     private $originalurl;
     private $html;
     private $content;
@@ -40,6 +41,7 @@ class Source {
             'header' => $this->header,
             'content' => $this->content,
             'hostname' => $this->phost,
+            'scheme' => $this->scheme,
             'clshost' => $this->clsHost(),
             'unknown' => $this->isUnknown(),
             'originalUrl' => $this->originalurl,
@@ -245,7 +247,9 @@ class Source {
     }
 
     protected function getPhost() {
-        $this->phost = Util::getHostFromUrl($this->originalurl);
+        $elems = parse_url($this->originalurl);
+        $this->phost = $elems['host']; //Util::getHostFromUrl($this->originalurl);
+        $this->scheme = $elems['scheme'];
     }
 
     protected function getHtml($refresh) {

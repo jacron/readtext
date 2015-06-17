@@ -23,11 +23,6 @@ class Util {
 
         $backtrace = debug_backtrace();
         $trace = $backtrace[0];
-        /*
-        ob_start();
-        var_dump($arr);
-        $output = ob_get_clean();
-*/
         $file = $trace['file'];
         if (isset($set['srcpath'])) {
             $file = str_replace($set['srcpath'], '.../', $trace['file']);
@@ -47,14 +42,6 @@ class Util {
         $encoding_from = 'Windows-1252';    // 'ISO-8859-15'
         $encoding_to = 'UTF-8';
         return mb_convert_encoding($html, $encoding_to, $encoding_from);
-    }
-
-    public static function getHostFromUrl($url) {
-        $phost = self::getElement($url, '/\:\/\/(.*?)\//is');
-        if (empty($phost)) {
-            return $url;
-        }
-        return $phost;
     }
 
     public static function getRedirect($url) {
@@ -130,4 +117,13 @@ class Util {
     public static function getRootUrl() {
         return 'http://' . $_SERVER['HTTP_HOST'];
     }
+
+    public static function escapeFilename($url) {
+        return str_replace(
+            array(':', '/', '?', '=', '+', '%'),
+            array('_', '_', '_', '_', '_', '_'),
+            $url
+        );
+    }
+
 }
