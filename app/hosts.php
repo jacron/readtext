@@ -302,7 +302,10 @@ REGEXP
          ),
         array(
             'name' => 'www.reelviews.net',
-            'body' => '/<!-- Alt Left Column -->\s*?(<div id="right_col.*<\/div>)\s*?<!-- Alt Left Column -->\s*?<div id="left_col/is',
+            'body' => array(
+                '/<!-- Alt Left Column -->\s*?(<div id="right_col.*<\/div>)\s*?<!-- Alt Left Column -->\s*?<div id="left_col/is',
+                '/(<div class="container.*?<\/div>)\w?<footer>/is',
+            ),
             'remove' => '/<div id="movie-inset">.*?<\/div>/is',
             'utf8' => true,
             'style' => 'hr{display:none;}h1:not([id=review-title]){display:none;}',
