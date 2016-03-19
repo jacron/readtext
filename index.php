@@ -16,11 +16,28 @@ $reader = new Reader();
 
 $link = filter_input(INPUT_GET, 'link');
 $redirect = filter_input(INPUT_GET, 'redirect');
+$render = filter_input(INPUT_GET, 'render');
 $utf8 = filter_input(INPUT_GET, 'utf8');
 $refresh = filter_input(INPUT_GET, 'refresh');
 $data = null;
 
-if ($link) {
+// Fetch content
+header("Access-Control-Allow-Origin: *");
+$content = filter_input(INPUT_POST, 'content');
+$title = filter_input(INPUT_POST, 'title');
+$path =  isset($config->settings['target'])? $config->settings['target']: '';
+//$target = $path . 'readtext.html';
+$url = filter_input(INPUT_POST, 'url');
+if ($content) {
+    $target = $path . str_replace(' ', '_', $title) . '.txt';
+    file_put_contents($target, $url . ';' . $title . ';'. $content);
+    exit();
+}
+else if ($render) {
+    $target = $path . str_replace(' ', '_', $render) . '.txt';
+    $data = $reader->makeHtmlPage($target);
+}
+else if ($link) {
     //'http://www.smashingmagazine.com/2013/05/06/new-defaults-web-design/#more-91968';
     $data = $reader->read($link, $utf8, $refresh);
 }
@@ -30,20 +47,20 @@ else if ($redirect) {
 else {
     // Redirect to usage page.
     header('Location: usage.php');
+    //$data = $reader->makeHtmlPage($target);
 }
-
-header('Content-Type: text/html; charset=utf-8');
-?>
-
-<!DOCTYPE html>
-<!--
+/*
+ * <!--
 Author: jan
 Date: 15-mei-2014
 -->
+
+ */
+//header('Content-Type: text/html; charset=utf-8');
+?>
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><?=$data['title']?></title>
         <link rel="stylesheet" href="css/style.css?v=1">
         <link rel="icon" href="<?=$data['scheme']?>://<?=$data['hostname']?>/favicon.ico">
@@ -51,7 +68,7 @@ Date: 15-mei-2014
         <link rel="stylesheet" href="<?=$data['cssPrint']?>">
         <?php } ?>
         <?php if (!empty($data['css'])) { ?>
-        <link rel="stylesheet" href="css/<?=$data['css']?>">
+        <link rel="stylesheet" href="<?=$data['css']?>">
         <?php } ?>
         <?php if (!empty($data['style'])) { ?>
         <style><?=$data['style']?></style>
@@ -64,7 +81,7 @@ Date: 15-mei-2014
         <script>var host='<?=$data['hostname']?>';</script>
         <script src="js/script.js"></script>
         <?php if (!empty($data['js'])) { ?>
-        <script src="js/<?=$data['js']?>"></script
+        <script src="<?=$data['js']?>"></script
         <?php } ?>
     </head>
     <body>

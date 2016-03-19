@@ -11,7 +11,20 @@
  * @author jan
  */
 class Util {
+/*
+    protected static function getShortPath($path) {
 
+        $path = str_replace('\\', '/', $path);
+        $doc_root = $_SERVER['DOCUMENT_ROOT'];  //C:/xampp/htdocs/movies13/public
+        $pos = strpos($doc_root, '/public');
+        if ($pos === false) {
+            return $path;
+        }
+        $app_root = substr($doc_root, 0, $pos) . '/app'; //C:/xampp/htdocs/movies13/app
+
+        return str_replace($app_root, '_APP_', $path);
+    }
+*/
     /**
      * @param mixed|string $arr
      * @param string|null $label
@@ -25,6 +38,7 @@ class Util {
         $trace = $backtrace[0];
         $file = $trace['file'];
         if (isset($set['srcpath'])) {
+            ///Users/orion/Public/htdocs/readtext/app/
             $file = str_replace($set['srcpath'], '.../', $trace['file']);
         }
         $msg = $file . '::' . $trace['line'] . '::';
@@ -45,6 +59,7 @@ class Util {
     }
 
     public static function getRedirect($url) {
+        Util::debug_log($url);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, TRUE);
@@ -80,6 +95,43 @@ class Util {
             'text' => $response_text,
             'url' => $location
         );
+    }
+
+    protected static function getShortPath($path) {
+
+        $path = str_replace('\\', '/', $path);
+        $doc_root = $_SERVER['DOCUMENT_ROOT']; 
+        $pos = strpos($doc_root, '/public');
+        if ($pos === false) {
+            return $path;
+        }
+        $app_root = substr($doc_root, 0, $pos) . '/app';
+
+        return str_replace($app_root, '_APP_', $path);
+    }
+
+    protected static function thisTime() {
+        return Date('d M H:i:s');
+    }
+
+    protected static function traceInfo($backtrace) {
+        $trace = $backtrace[0];
+        $file = self::getShortPath($trace['file']);
+        return $file . '::' . $trace['line'] . '::';
+    }
+
+    protected static function log($msg) {
+        file_put_contents("debug.log", $msg . PHP_EOL, FILE_APPEND);
+    }
+
+    public static function info_log($arr, $label = '') {
+        $msg = self::thisTime() . ' ';
+        $msg .= self::traceInfo(debug_backtrace());
+        if (strlen($label)){
+            $msg .= $label . '=';
+        }
+        $msg .= print_r($arr, true);
+        self::log($msg);
     }
 
     public static function getElement($html, $pattern)
@@ -124,6 +176,12 @@ class Util {
             array('_', '_', '_', '_', '_', '_'),
             $url
         );
+    }
+
+    public static function getHostFromUrl($originalurl)
+    {
+
+        return parse_url($originalurl, PHP_URL_HOST);
     }
 
 }

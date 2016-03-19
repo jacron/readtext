@@ -30,7 +30,8 @@ class Hosts {
         '/(style=\'.*?\')/is',
         '/(bgcolor=".*?")/is',
         '/(bgcolor=\'.*?\')/is',
-        '/(<b>)/is'
+        '/(<b>)/is',
+        '/( class="MsoNormal")/is'
     );
 
     public $defaultHost = array(
@@ -60,8 +61,33 @@ REGEXP
         'ReadwriteAuthor' => '/(<span class="avatar".*?)\s*?<span class="section"/is',
     );
 
+    /*
+     * hosts: a list of hosts
+     *
+     * name
+     * body regex, if starting with *, then use preg_match_all insteadof preg_match
+     * css
+     * js
+     * header regex or empty; if empty, then use title of page as header(?)
+     * utf8
+     * style
+     *
+     * name, body may be a string or an array
+     */
     public $hosts = array(
 
+        array(
+            'name' => array(
+                'avxhome.in',
+                'avxhome.se',
+            ),
+            'body' => array(
+                '*{<div\s+class=".*?article"\s*>((?:(?:(?!<div[^>]*>|</div>).)++|<div[^>]*>(?1)</div>)*)</div>}si',
+            ),
+            'header' => '',
+            'css' => 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css',
+            'js' => 'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js',
+        ),
         array(
             'name' => array(
                 'www.avclub.com',

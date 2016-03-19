@@ -34,7 +34,14 @@ class Source {
         $data = array();
         $props = array('logo', 'style', 'css', 'script', 'js');
         foreach($props as $prop) {
-            $data[$prop] = $this->hostProp($prop);
+            $p = $this->hostProp($prop);
+            if ($prop == 'css' && strpos($p, 'http') === false) {
+                $p = 'css/' . $p;
+            }
+            if ($prop == 'js' && strpos($p, 'http') === false) {
+                $p = 'js/' . $p;
+            }
+            $data[$prop] = $p;
         }
         return array_merge($data, array(
             'title' => $this->title,
@@ -150,11 +157,17 @@ class Source {
     protected function getMultiElement($pattern) {
         $s = '';
         if (substr($pattern, 0, 1) == '*') {
+            Util::info_log($pattern, 'pattern');
             $a = Util::getElements($this->html, substr($pattern, 1));
-            $b = $a[0];
+            Util::info_log($a[1][0], 'multi elements parsed');
+            file_put_contents("multi.html", $this->html);
+            $b = $a[1];
+            $s = $b[0];
+            /*
             for ($i = 1; $i < count($b); $i++) {
                 $s .= $b[$i];
-            }
+            }*/
+            Util::info_log($s, 'string');
         }
         else {
             $s = Util::getElement($this->html, $pattern);
@@ -264,6 +277,7 @@ class Source {
     }
 
     protected function clsHost() {
+
         return str_replace('.', '-', $this->phost);
     }
 

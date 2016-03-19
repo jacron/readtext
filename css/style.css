@@ -47,7 +47,8 @@ b, strong, h1 {
 .sprite {
     background-image: url('../images/sprite.png');
 }
-.main {
+.main,
+.main table {
     margin: 0 auto;
     max-width:640px;
     font-size: 22px;
