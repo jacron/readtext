@@ -72,7 +72,7 @@ REGEXP
      * utf8
      * style
      *
-     * name, body may be a string or an array
+     * name, body, css, js may be a string or an array
      */
     public $hosts = array(
 
@@ -85,7 +85,10 @@ REGEXP
                 '*{<div\s+class=".*?article"\s*>((?:(?:(?!<div[^>]*>|</div>).)++|<div[^>]*>(?1)</div>)*)</div>}si',
             ),
             'header' => '',
-            'css' => 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css',
+            'css' => array(
+                'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css',
+                'avxhome.css',
+            ),
             'js' => 'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js',
         ),
         array(
@@ -181,14 +184,6 @@ REGEXP
             'utf8' => true,
             'style' => 'table {background-color: transparent;} hr{display:none;}',
         ),
-         /*
-        array(
-            'name' => 'www.dvdtalk.com',
-            'body' => '/<!-- MAIN DVD news table top .*?(<span style="font-family.*?<\/span>)\s*?<\/td>/is',
-            'utf8' => true,
-            'style' => 'table {background-color: transparent;} hr{display:none;}',
-        ),*/
-
         array(
             'name' => 'mashable.com',
             'body' => '/(<article class=\'full post\'.*?<\/article>)/is',
@@ -234,7 +229,6 @@ REGEXP
                 'variety.com',
                 'www.variety.com'
             ),
-            //'body' => '/<div id="content">(.*?)<!-- Closes #content /is',
             'header' => '/<!-- Article Headline -->(.*?)<div/is',
             'body' => array(
                 '/(<figure.*?<\/figure>)/is',

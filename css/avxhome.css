@@ -1,0 +1,7 @@
+.text > div:nth-child(3) {
+    text-align: center;
+}
+.img-responsive {
+    display: inherit;
+    margin-top: 26px;
+}

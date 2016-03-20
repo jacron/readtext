@@ -67,8 +67,13 @@ Date: 15-mei-2014
         <?php if (!empty($data['cssPrint'])) { ?>
         <link rel="stylesheet" href="<?=$data['cssPrint']?>">
         <?php } ?>
-        <?php if (!empty($data['css'])) { ?>
-        <link rel="stylesheet" href="<?=$data['css']?>">
+        <?php if (!empty($data['css'])) { 
+            if (is_array($data['css'])) foreach($data['css'] as $cssHref) { ?>
+                <link rel="stylesheet" href="<?=$cssHref?>">
+            <?php }
+            else { ?>
+                <link rel="stylesheet" href="<?=$data['css']?>">
+            <?php } ?>
         <?php } ?>
         <?php if (!empty($data['style'])) { ?>
         <style><?=$data['style']?></style>
@@ -80,8 +85,13 @@ Date: 15-mei-2014
         <script src="node_modules/jquery/dist/jquery.min.js"></script>
         <script>var host='<?=$data['hostname']?>';</script>
         <script src="js/script.js"></script>
-        <?php if (!empty($data['js'])) { ?>
-        <script src="<?=$data['js']?>"></script
+        <?php if (!empty($data['js'])) {
+            if (is_array($data['js'])) foreach($data['js'] as $jsSrc) { ?>
+                <script src="<?=$jsSrc?>"></script
+            <?php }
+            else { ?>
+                <script src="<?=$data['js']?>"></script
+            <?php } ?>
         <?php } ?>
     </head>
     <body>

@@ -29,19 +29,48 @@ class Source {
         return isset($this->host[$prop]) ? $this->host[$prop] : '';
     }
 
+    protected function clsHost() {
+        return str_replace('.', '-', $this->phost);
+    }
+
+    /*
+     * add local path to non external resources
+     */
+    protected function addLocalResourcePath($p, $prefix) {
+        if (is_array($p)) {
+            for ($i = 0; $i < count($p); $i++) {
+                if (strpos($p[$i], 'http') === false) {
+                    $p[$i] = $prefix . $p[$i];
+                }
+            }
+        }
+        else {
+            if (strpos($p, 'http') === false) {
+                $p = $prefix . $p;
+            }
+        }
+        return $p;
+    }
+    
+    protected function getProp($prop) {
+        $p = $this->hostProp($prop);
+        switch($prop) {
+            case 'css':
+                $p = $this->addLocalResourcePath($p, 'css/');
+                break;
+            case 'js':
+                $p = $this->addLocalResourcePath($p, 'js/');
+                break;
+        }
+        return $p;
+    }
+    
     protected function getData() {
         // merge data
         $data = array();
         $props = array('logo', 'style', 'css', 'script', 'js');
         foreach($props as $prop) {
-            $p = $this->hostProp($prop);
-            if ($prop == 'css' && strpos($p, 'http') === false) {
-                $p = 'css/' . $p;
-            }
-            if ($prop == 'js' && strpos($p, 'http') === false) {
-                $p = 'js/' . $p;
-            }
-            $data[$prop] = $p;
+            $data[$prop] = $this->getProp($prop);
         }
         return array_merge($data, array(
             'title' => $this->title,
@@ -167,13 +196,14 @@ class Source {
             for ($i = 1; $i < count($b); $i++) {
                 $s .= $b[$i];
             }*/
-            Util::info_log($s, 'string');
+            //Util::info_log($s, 'string');
         }
         else {
             $s = Util::getElement($this->html, $pattern);
         }
         return $s;
     }
+    
     protected function getContents() {
         $content = '';
         $i = 0;
@@ -274,11 +304,6 @@ class Source {
         $this->content = Util::convertToUtf8($this->content);
         $this->header = Util::convertToUtf8($this->header);
         $this->title = Util::convertToUtf8($this->title);
-    }
-
-    protected function clsHost() {
-
-        return str_replace('.', '-', $this->phost);
     }
 
     protected function isUnknown() {
