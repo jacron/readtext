@@ -198,7 +198,8 @@ REGEXP
         ),
         array(
             'name' => 'www.wired.com',
-            'body' => '/(<div class="entry">.*?)\s*?<div id=\'social-bottom/is',
+            //'body' => '/(<div class="entry">.*?)\s*?<div id=\'social-bottom/is',
+            'body' => '/<article class="content.*?">(.*?)<\/article>/is'
         ),
 
         array(
