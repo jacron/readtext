@@ -58,6 +58,7 @@ Date: 15-mei-2014
  */
 //header('Content-Type: text/html; charset=utf-8');
 ?>
+<!doctype html>
 <html>
     <head>
         <meta charset="UTF-8">

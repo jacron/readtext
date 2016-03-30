@@ -78,7 +78,16 @@ REGEXP
         'ReadwriteAuthor' => '/(<span class="avatar".*?)\s*?<span class="section"/is',
     );
 
+    /**********************
+     * @var array hosts
+     **********************/
     public $hosts = array(
+
+        array(
+            'name' => 'www.kqek.com',
+            'body' => '/Comment<\/font>.*?(<tr>.*?<\/tr>)/is',
+            'remove' => '/(<img.*? src=".*?blackgap_gif.gif".*?)<img/is',
+        ),
 
         array(
             'name' => array(
