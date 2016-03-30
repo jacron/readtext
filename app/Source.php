@@ -184,24 +184,15 @@ class Source {
     }
 
     protected function getMultiElement($pattern) {
-        $s = '';
+        if (substr($pattern, 0, 1) == '@') {
+            return Util::getClassDiv($this->html, substr($pattern, 1));
+        }
         if (substr($pattern, 0, 1) == '*') {
-            Util::info_log($pattern, 'pattern');
-            $a = Util::getElements($this->html, substr($pattern, 1));
-            Util::info_log($a[1][0], 'multi elements parsed');
-            file_put_contents("multi.html", $this->html);
-            $b = $a[1];
-            $s = $b[0];
-            /*
-            for ($i = 1; $i < count($b); $i++) {
-                $s .= $b[$i];
-            }*/
-            //Util::info_log($s, 'string');
+            return Util::getMulti($this->html, substr($pattern, 1));
         }
         else {
-            $s = Util::getElement($this->html, $pattern);
+            return Util::getElement($this->html, $pattern);
         }
-        return $s;
     }
     
     protected function getContents() {

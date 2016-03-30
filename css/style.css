@@ -96,12 +96,6 @@ img {
     max-width: 640px;
     height: auto;
 }
-/*
-@media screen and (max-width:800px) {
-    .main {
-        max-width: 720px;
-    }
-}*/
 .originallink .unknown {
     color: red;
 }
@@ -123,4 +117,7 @@ iframe {
 .review-author.headline {
     font-family: chaparral-bold, serif;
     font-size: 26px;;
+}
+.eop {
+    clear: both;
 }

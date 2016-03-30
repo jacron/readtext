@@ -17,6 +17,23 @@
  *
  * overige velden: css, js
  */
+/*
+ * hosts: a list of hosts
+ * regex:
+ * - if starting with *, then use preg_match_all insteadof preg_match,
+ * - if starting with @, then after that a class name is provided and the whole
+ * div with that classname is extracted
+ *
+ * name
+ * body
+ * css
+ * js
+ * header regex or empty; if empty, then use title of page as header(?)
+ * utf8
+ * style
+ *
+ * name, body, css, js may be a string or an array
+ */
 
 /**
  * Class Hosts
@@ -61,19 +78,6 @@ REGEXP
         'ReadwriteAuthor' => '/(<span class="avatar".*?)\s*?<span class="section"/is',
     );
 
-    /*
-     * hosts: a list of hosts
-     *
-     * name
-     * body regex, if starting with *, then use preg_match_all insteadof preg_match
-     * css
-     * js
-     * header regex or empty; if empty, then use title of page as header(?)
-     * utf8
-     * style
-     *
-     * name, body, css, js may be a string or an array
-     */
     public $hosts = array(
 
         array(
@@ -82,7 +86,7 @@ REGEXP
                 'avxhome.se',
             ),
             'body' => array(
-                '*{<div\s+class=".*?article"\s*>((?:(?:(?!<div[^>]*>|</div>).)++|<div[^>]*>(?1)</div>)*)</div>}si',
+                '@.*?article',
             ),
             'header' => '',
             'css' => array(
@@ -249,7 +253,8 @@ REGEXP
             'name' => 'www.classicfilmguide.com',
             'body' => array(
                 '/(<div class="post-thumbnail">.*?<\/div>)/is',
-                '/(<div class="pagecontent">.*?<\/div>)/is'
+                //'/(<div class="pagecontent">.*?<\/div>)/is',
+                '@pagecontent',
             ),
          ),
         array(
