@@ -176,6 +176,7 @@ class Source {
     protected function writeContentToDisk($content) {
         global $config;
         $dir = $config->settings['contentdir'];
+        //Util::info_log($dir, 'dir');
 
         if (!file_exists($dir)) {
             mkdir(dirname($dir));
@@ -184,14 +185,16 @@ class Source {
     }
 
     protected function getMultiElement($pattern) {
-        if (substr($pattern, 0, 1) == '@') {
-            return Util::getClassDiv($this->html, substr($pattern, 1));
-        }
-        if (substr($pattern, 0, 1) == '*') {
-            return Util::getMulti($this->html, substr($pattern, 1));
-        }
-        else {
-            return Util::getElement($this->html, $pattern);
+        $p = substr($pattern, 1);
+        switch(substr($pattern, 0, 1)) {
+            case '.': // v/h @
+                return Util::getClassDiv($this->html, $p);
+            case '#':
+                return Util::getIdDiv($this->html, $p);
+            case '*':
+                return Util::getMulti($this->html, $p);
+            default:
+                return Util::getElement($this->html, $pattern);
         }
     }
     
@@ -311,7 +314,8 @@ class Source {
      */
     public function get($url, $forcedUtf8, $refresh) {
         $this->originalurl = $url;
-        $this->getHtml($refresh);
+        $this->getHtml(true);//$refresh);
+        Util::info_log(strlen($this->html));
         $this->writeContentToDisk($this->html); // check the original source
         $this->getTitle();
         $this->getPhost();

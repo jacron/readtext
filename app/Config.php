@@ -16,8 +16,9 @@ class Config {
 
         // get host id = [machinename]
         $host = php_uname('n');
-        //Util::debug_log($host);
-        if ($host == 'jhsms-MBP-2') {
+        //Util::info_log($host);
+        //echo 'host=' . $host;
+        if ($host == 'jhsms-MBP-2' || $host == 'jhsms-MacBook-Pro-2.local') {
             $host = 'jhsms-MacBook-Pro.local';
             //Util::debug_log($host);
         }

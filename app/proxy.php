@@ -48,15 +48,19 @@ class Proxy {
     }
 
     protected function getRemoteFile($url) {
+        Util::info_log('get remote:' . $url);
         if (empty($url)) {
             echo 'Empty url!';
             return '';
         }
-        header('Content-Type: text/html;charset=utf-8', false);
+        //header('Content-Type: text/html;charset=utf-8', false);
 
-        @$content = file_get_contents($url);
-        if (!$content)
+        $content = file_get_contents($url);
+        Util::info_log(strlen($content));
+
+        if (empty($content))
         {
+            Util::info_log('Trying curl with useragent');
 
             // Use user agent cloacking.
             $ch = curl_init();
@@ -73,12 +77,16 @@ class Proxy {
         }
 
 
-        if (!$content) {
+        if (empty($content)) {
             if (empty($http_response_header)) {
-                echo 'No content (no response header) for url=' . $url;
+                $msg = 'No content (no response header) for url=' . $url;
+                Util::info_log($msg);
+                echo $msg;
             }
             else {
-                echo '<pre>'. $http_response_header[0] . '</pre>';
+                $msg = $http_response_header[0];
+                Util::info_log($msg);
+                echo '<pre>'. $msg . '</pre>';
             }
         }
         return $content;
@@ -118,10 +126,12 @@ class Proxy {
      */
     public function get($url, $refresh) {
         global $config;
+        //Util::info_log($refresh, 'refresh');
+
         //Util::debug_log($config->settings);
 
         if (!$config->settings['cache'] || $refresh) {
-            Util::debug_log('not cached:' . $url);
+            Util::info_log('not cached:' . $url);
             return $this->getRemoteFile($url);
         }
 
@@ -129,7 +139,7 @@ class Proxy {
 
         if (!file_exists($dir)) {
             if (!mkdir($dir)) {
-                Util::debug_log('error: ' . $dir);
+                Util::info_log('error: ' . $dir);
                 return $this->getRemoteFile($url);
             }
         }

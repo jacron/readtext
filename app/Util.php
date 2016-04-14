@@ -30,17 +30,19 @@ class Util {
      * @param string|null $label
      */
     public static function debug_log($arr, $label='') {
-        global $config;
+        //global $config;
+        $srcpath = '/Users/orion/Public/htdocs/readtext/app/';
 
-        $set = $config->settings;
+        //$set = $config->settings;
 
         $backtrace = debug_backtrace();
         $trace = $backtrace[0];
         $file = $trace['file'];
-        if (isset($set['srcpath'])) {
+        //if (isset($set['srcpath'])) {
+            //$srcpath = $set['srcpath'];
             ///Users/orion/Public/htdocs/readtext/app/
-            $file = str_replace($set['srcpath'], '.../', $trace['file']);
-        }
+            $file = str_replace($srcpath, '.../', $trace['file']);
+        //}
         $msg = $file . '::' . $trace['line'] . '::';
         if (strlen($label)) {
             $msg .= $label . '=>';
@@ -141,13 +143,22 @@ class Util {
         return self::getMulti($html, $pattern);
     }
 
+    public static function getIdDiv($html, $id) {
+        // '*{<div\s+class=".*?article"\s*>((?:(?:(?!<div[^>]*>|</div>).)++|<div[^>]*>(?1)</div>)*)</div>}si',
+        $pattern =  '{<div\s+id="' . $id .
+            '".*?>((?:(?:(?!<div[^>]*>|</div>).)++|<div[^>]*>(?1)</div>)*)</div>}si';
+        return self::getMulti($html, $pattern);
+    }
+
     public static function getMulti($html, $pattern) {
         Util::info_log($pattern, 'pattern');
         $a = self::getElements($html, $pattern);
         //self::info_log($a[1], 'multi elements parsed, first phase');
         //file_put_contents("multi.html", $html);
-        if (isset($a[1][1])) return $a[1][1];
-        return $a[1][0];
+        if (isset($a[1])) {
+            if (isset($a[1][1])) return $a[1][1];
+            if (isset($a[1][0])) return $a[1][0];
+        }
     }
 
     public static function getElement($html, $pattern)

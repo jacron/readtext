@@ -39,6 +39,7 @@ else if ($render) {
 }
 else if ($link) {
     //'http://www.smashingmagazine.com/2013/05/06/new-defaults-web-design/#more-91968';
+    Util::info_log('processing link:' . $link);
     $data = $reader->read($link, $utf8, $refresh);
 }
 else if ($redirect) {

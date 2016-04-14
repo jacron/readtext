@@ -82,7 +82,12 @@ REGEXP
      * @var array hosts
      **********************/
     public $hosts = array(
-
+/*
+        array(
+            'name' => 'thequietus.com',
+            'body' => '#content', // no result here
+            'header' => '',
+        ),*/
         array(
             'name' => 'www.kqek.com',
             'body' => '/Comment<\/font>.*?(<tr>.*?<\/tr>)/is',
@@ -95,7 +100,7 @@ REGEXP
                 'avxhome.se',
             ),
             'body' => array(
-                '@.*?article',
+                '..*?article',
             ),
             'header' => '',
             'css' => array(
@@ -212,7 +217,9 @@ REGEXP
         array(
             'name' => 'www.wired.com',
             //'body' => '/(<div class="entry">.*?)\s*?<div id=\'social-bottom/is',
-            'body' => '/<article class="content.*?">(.*?)<\/article>/is'
+            'body' => '/(<article.*?>.*?<\/article>)/is',
+            'header' => array('/<h1 id="post-title.*?>(.*?)<\/h1>/is',
+                '/<h1.*?class="post-title.*?>(.*?)<\/h1>/is'),
         ),
 
         array(
