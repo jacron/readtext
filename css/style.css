@@ -125,6 +125,7 @@ iframe {
     .main,
     .main table {
         font-size: 15px;
+        max-width: 600px;
     }
     .text_body{
         line-height:1.3;
