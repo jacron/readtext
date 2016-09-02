@@ -48,7 +48,7 @@ class Proxy {
     }
 
     protected function getRemoteFile($url) {
-        Util::info_log('get remote:' . $url);
+        //Util::info_log('get remote:' . $url);
         if (empty($url)) {
             echo 'Empty url!';
             return '';
@@ -56,7 +56,7 @@ class Proxy {
         //header('Content-Type: text/html;charset=utf-8', false);
 
         $content = file_get_contents($url);
-        Util::info_log(strlen($content));
+        //Util::info_log(strlen($content));
 
         if (empty($content))
         {
@@ -131,7 +131,7 @@ class Proxy {
         //Util::debug_log($config->settings);
 
         if (!$config->settings['cache'] || $refresh) {
-            Util::info_log('not cached:' . $url);
+            //Util::info_log('not cached:' . $url);
             return $this->getRemoteFile($url);
         }
 

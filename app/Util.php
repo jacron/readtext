@@ -30,25 +30,18 @@ class Util {
      * @param string|null $label
      */
     public static function debug_log($arr, $label='') {
-        //global $config;
         $srcpath = '/Users/orion/Public/htdocs/readtext/app/';
-
-        //$set = $config->settings;
-
         $backtrace = debug_backtrace();
         $trace = $backtrace[0];
-        $file = $trace['file'];
-        //if (isset($set['srcpath'])) {
-            //$srcpath = $set['srcpath'];
-            ///Users/orion/Public/htdocs/readtext/app/
-            $file = str_replace($srcpath, '.../', $trace['file']);
-        //}
-        $msg = $file . '::' . $trace['line'] . '::';
+        $file = str_replace($srcpath, '.../', $trace['file']);
+        $msg = self::thisTime() . ' ';
+        $msg .= $file . '::' . $trace['line'] . '::';
         if (strlen($label)) {
             $msg .= $label . '=>';
         }
         $msg .= print_r($arr, true);
-        error_log($msg);
+        //error_log($msg);
+        self::log($msg);
     }
 
     public static function convertToUtf8($html) {
@@ -113,7 +106,7 @@ class Util {
     }
 
     protected static function thisTime() {
-        return Date('d M H:i:s');
+        return date('d M H:i:s');
     }
 
     protected static function traceInfo($backtrace) {
@@ -153,12 +146,11 @@ class Util {
     public static function getMulti($html, $pattern) {
         Util::info_log($pattern, 'pattern');
         $a = self::getElements($html, $pattern);
-        //self::info_log($a[1], 'multi elements parsed, first phase');
-        //file_put_contents("multi.html", $html);
         if (isset($a[1])) {
             if (isset($a[1][1])) return $a[1][1];
             if (isset($a[1][0])) return $a[1][0];
         }
+        return null;
     }
 
     public static function getElement($html, $pattern)

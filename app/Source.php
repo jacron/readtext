@@ -309,13 +309,11 @@ class Source {
      *
      * @param string $url
      * @param bool $forcedUtf8 true, if client sent parameter utf8 in querystring
-     * @param bool $refresh
      * @return mixed data
      */
-    public function get($url, $forcedUtf8, $refresh) {
+    public function get($url, $forcedUtf8) {
         $this->originalurl = $url;
         $this->getHtml(true);//$refresh);
-        Util::info_log(strlen($this->html));
         $this->writeContentToDisk($this->html); // check the original source
         $this->getTitle();
         $this->getPhost();

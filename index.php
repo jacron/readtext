@@ -1,6 +1,12 @@
 <?php
 // readtext index.php
-
+/*
+ * link
+ * redirect
+ * render
+ * utf8
+ * refresh
+ */
 include 'app/hosts.php';
 include 'app/readtext.php';
 include 'app/Util.php';
@@ -43,7 +49,7 @@ else if ($link) {
     $data = $reader->read($link, $utf8, $refresh);
 }
 else if ($redirect) {
-    $data = $reader->readRedirect($redirect, $utf8, $refresh);
+    $data = $reader->readRedirect($redirect, $utf8);
 }
 else {
     // Redirect to usage page.

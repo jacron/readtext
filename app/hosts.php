@@ -22,6 +22,7 @@
  * regex:
  * - if starting with *, then use preg_match_all insteadof preg_match,
  * - if starting with @, then after that a class name is provided and the whole
+ * - if starting with .., then after that a id name is provided
  * div with that classname is extracted
  *
  * name
@@ -88,6 +89,14 @@ REGEXP
             'body' => '#content', // no result here
             'header' => '',
         ),*/
+        array(
+            'name' => 'www.informationphilosopher.com',
+            'body' => array(
+                '/(<div class="bodycontent">.*?)<table class="footernav"/is',
+                // '@bodycontent'
+            ),
+        ),
+
         array(
             'name' => 'www.kqek.com',
             'body' => '/Comment<\/font>.*?(<tr>.*?<\/tr>)/is',
@@ -392,6 +401,7 @@ REGEXP
                 '/<!--THE HEADLINE GOES HERE-->\s*?<h2>(.*?)<\/h2>\s*?<!--THE BYLINE GOES HERE-->/is',
                 '/(<table.*?<\/table>).*?<!-- End of ARTICLE head table. -->/is'
             ),
+            'utf8' => true,
          ),
         array(
             'name' => 'cinemagazine.nl',
