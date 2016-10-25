@@ -106,6 +106,7 @@ class Util {
     }
 
     protected static function thisTime() {
+        date_default_timezone_set('Europe/Amsterdam');
         return date('d M H:i:s');
     }
 
