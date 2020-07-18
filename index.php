@@ -25,6 +25,7 @@ $redirect = filter_input(INPUT_GET, 'redirect');
 $render = filter_input(INPUT_GET, 'render');
 $utf8 = filter_input(INPUT_GET, 'utf8');
 $refresh = filter_input(INPUT_GET, 'refresh');
+$dark = filter_input(INPUT_GET, 'dark');
 $data = null;
 
 // Fetch content
@@ -55,6 +56,10 @@ else {
     // Redirect to usage page.
     header('Location: usage.php');
     //$data = $reader->makeHtmlPage($target);
+}
+$clsdark = '';
+if ($dark) {
+    $clsdark = 'dark';
 }
 /*
  * <!--
@@ -102,15 +107,20 @@ Date: 15-mei-2014
             <?php } ?>
         <?php } ?>
     </head>
-    <body>
+    <body class="<?=$clsdark?>">
         <div class="container <?=$data['clshost']?>">
             <div class="main">
                <div class="main-head">
                    <div class="originallink">
                        <a href="<?=$data['originalUrl']?>"
                             title="<?=$data['originalUrl']?>"
-                            class="<?=$data['unknown']?'unknown':''?>"><?=$data['hostname']?></a>
+                            class="<?=$data['unknown']?'unknown':''?>">
+                           <?=$data['hostname']?>
+                       </a>
                        <br>
+                       <form>
+                           <input type="submit" value="readme">
+                       </form> |
                        <?php if ($data['unknown'] && !isset($_REQUEST['utf8'])) { ?>
                            <a href="#" class="utf8">utf8</a>
                        <?php } ?>
@@ -119,6 +129,19 @@ Date: 15-mei-2014
                        <?php } else { ?>
                            | refreshed
                        <?php } ?>
+                       <?php if ($link) { ?>
+                           <?php if (!isset($_REQUEST['dark'])) { ?>
+                               | <form>
+                                   <input type="hidden" name="link" value="<?=$link?>">
+                                   <input type="hidden" name="dark" value="on">
+                                   <input type="submit" value="dark on">
+                               </form>
+                           <?php } else { ?>
+                               | <form>
+                                   <input type="hidden" name="link" value="<?=$link?>">
+                                   <input type="submit" value="dark off">
+                               </form>
+                       <?php } } ?>
                    </div>
                </div>
        <?php if (!empty($data['logo'])) { ?>
